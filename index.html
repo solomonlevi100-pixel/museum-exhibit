@@ -19,8 +19,7 @@
   <h2>VITM Interactive Exhibit: Digital Twin</h2>
   
   <!-- Direct 3D Model Renderer with Zoom & Scale Fixes -->
-  <model-viewer src="leo_rover.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate bounds="tight" field-of-view="30deg" shadow-intensity="1">
-    <button slot="ar-button" class="btn">View in Your Space (AR)</button>
+  <model-viewer src="leo_rover.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate bounds="tight" camera-orbit="0deg 75deg 100%" min-camera-orbit="auto auto 50%" field-of-view="15deg" shadow-intensity="1">  <button slot="ar-button" class="btn">View in Your Space (AR)</button>
   </model-viewer>
 
   <p>Rotate & Inspect CAD Assembly</p>
