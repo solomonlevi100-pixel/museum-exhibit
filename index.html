@@ -50,9 +50,10 @@
 
     // Custom camera framing per model scale
     if (modelFile.includes('leo_rover')) {
-      // Zoom in tight specifically for the small rover CAD mesh
-      viewer.setAttribute('field-of-view', '5deg');
-      viewer.setAttribute('camera-orbit', '0deg 75deg 100%');
+      // Bring camera close and tighten field-of-view for the small rover CAD mesh
+      viewer.setAttribute('field-of-view', '10deg');
+      viewer.setAttribute('camera-orbit', '0deg 75deg 30%');
+      viewer.setAttribute('min-camera-orbit', 'auto auto 10%');
     } else {
       // Normal camera distance for models 2 and 3
       viewer.setAttribute('field-of-view', '25deg');
