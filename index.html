@@ -35,17 +35,29 @@
   <h2>VITM Interactive Exhibit: Digital Twin</h2>
   
   <!-- 3D Model Renderer -->
-  <model-viewer id="viewer" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate bounds="tight" camera-orbit="0deg 75deg 100%" min-camera-orbit="auto auto 50%" field-of-view="15deg" shadow-intensity="1">
+  <model-viewer id="viewer" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate bounds="tight" shadow-intensity="1">
     <button class="btn" onclick="alert('Open this link on a mobile device to launch AR!')">View in Your Space (AR)</button>
   </model-viewer>
 
   <p>Rotate & Inspect CAD Assembly</p>
 
   <script>
-    // Automatically load the model based on the URL parameter ?model=filename.glb
     const urlParams = new URLSearchParams(window.location.search);
     const modelFile = urlParams.get('model') || 'leo_rover.glb';
-    document.getElementById('viewer').setAttribute('src', modelFile);
+    const viewer = document.getElementById('viewer');
+
+    viewer.setAttribute('src', modelFile);
+
+    // Custom camera framing per model scale
+    if (modelFile.includes('leo_rover')) {
+      // Zoom in tight specifically for the small rover CAD mesh
+      viewer.setAttribute('field-of-view', '5deg');
+      viewer.setAttribute('camera-orbit', '0deg 75deg 100%');
+    } else {
+      // Normal camera distance for models 2 and 3
+      viewer.setAttribute('field-of-view', '25deg');
+      viewer.setAttribute('camera-orbit', 'auto auto auto');
+    }
   </script>
 </body>
 </html>
