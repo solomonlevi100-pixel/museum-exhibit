@@ -8,9 +8,9 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: #111; color: #fff; font-family: sans-serif; text-align: center; overflow: hidden; }
+    body { background-color: #111; color: #fff; font-family: sans-serif; text-align: center; overflow-x: hidden; }
     h2 { position: absolute; top: 20px; width: 100%; z-index: 10; font-size: 1.2rem; }
-    p { position: absolute; bottom: 20px; width: 100%; z-index: 10; font-size: 0.9rem; opacity: 0.8; }
+    p.hint { position: absolute; bottom: 20px; width: 100%; z-index: 10; font-size: 0.9rem; opacity: 0.8; }
     model-viewer { width: 100vw; height: 100vh; }
     
     .btn { 
@@ -29,35 +29,95 @@
       cursor: pointer; 
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
+
+    /* DIGITAL SUNGLASSES ILLUSION WIDGET */
+    .decoder-widget {
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      width: 280px;
+      height: 120px;
+      z-index: 1000;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #222;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+      background-image: url('camouflage.png.png');
+      background-size: cover;
+      background-position: center;
+      cursor: crosshair;
+    }
+
+    .hidden-text {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #ff3b30; 
+      user-select: none;
+      pointer-events: none;
+      padding: 0 10px;
+    }
+
+    .lens {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #007aff; 
+      opacity: 0.95;
+      mix-blend-mode: multiply; 
+      transition: opacity 0.2s ease;
+    }
+
+    /* Shows filter lens on hover or touchscreen press */
+    .decoder-widget:not(:hover):not(:active) .lens {
+      opacity: 0;
+    }
   </style>
 </head>
 <body>
   <h2>VITM Interactive Exhibit: Digital Twin</h2>
   
+  <!-- DIGITAL SUNGLASSES BOX (Top Right Window) -->
+  <div class="decoder-widget">
+    <div id="secret-message" class="hidden-text">RESTRICTED: LEO ROVER INTEGRITY 94%</div>
+    <div class="lens"></div>
+  </div>
+
   <!-- 3D Model Renderer -->
   <model-viewer id="viewer" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate bounds="tight" shadow-intensity="1">
     <button class="btn" onclick="alert('Open this link on a mobile device to launch AR!')">View in Your Space (AR)</button>
   </model-viewer>
 
-  <p>Rotate & Inspect CAD Assembly</p>
+  <p class="hint">Rotate & Inspect CAD Assembly | Hold fingerprint over top-right window to decode specs</p>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const modelFile = urlParams.get('model') || 'leo_rover.glb';
     const viewer = document.getElementById('viewer');
+    const msgElement = document.getElementById('secret-message');
 
     viewer.setAttribute('src', modelFile);
 
-    // Custom camera framing per model scale
+    // Custom messages matching different scanned models
     if (modelFile.includes('leo_rover')) {
-      // Bring camera close and tighten field-of-view for the small rover CAD mesh
       viewer.setAttribute('field-of-view', '10deg');
       viewer.setAttribute('camera-orbit', '0deg 75deg 30%');
       viewer.setAttribute('min-camera-orbit', 'auto auto 10%');
-    } else {
-      // Normal camera distance for models 2 and 3
+      msgElement.innerText = "RESTRICTED: LEO ROVER INTEGRITY 94%";
+    } else if (modelFile.includes('second_model')) {
       viewer.setAttribute('field-of-view', '25deg');
       viewer.setAttribute('camera-orbit', 'auto auto auto');
+      msgElement.innerText = "CLASSIFIED: EXCAVATOR TORQUE LIMIT 850NM";
+    } else {
+      viewer.setAttribute('field-of-view', '25deg');
+      viewer.setAttribute('camera-orbit', 'auto auto auto');
+      msgElement.innerText = "SYSTEM: AUXILIARY ENGINE COMPRESSION OK";
     }
   </script>
 </body>
