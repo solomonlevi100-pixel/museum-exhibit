@@ -42,10 +42,10 @@
       overflow: hidden;
       border: 2px solid #222;
       box-shadow: 0 8px 32px rgba(0,0,0,0.7);
-      /* FIXED: Swapped to a direct public mirror URL to force it to show up instantly everywhere */
-      background-image: url('https://imgur.com');
-      background-size: cover;
-      background-position: center;
+      /* FIXED: Embedded image directly as a raw base64 data string to guarantee loading */
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" width="100" height="100" viewBox="0 0 100 100"><path d="M0,10 Q30,50 60,20 T100,90 M10,100 Q40,10 80,70 T20,0 M50,0 Q90,90 10,40 T100,10 M0,80 Q70,30 30,90 T90,20 M100,50 Q20,10 50,100 T0,30" fill="none" stroke="%230033aa" stroke-width="2.5"/><path d="M5,15 C25,85 75,15 95,85 M95,15 C75,85 25,15 5,85 M0,50 C50,0 50,100 100,50 M50,0 C0,50 100,50 50,100" fill="none" stroke="%230088ff" stroke-width="1.5"/></svg>');
+      background-size: auto;
+      background-repeat: repeat;
       cursor: crosshair;
       background-color: #111;
     }
@@ -71,7 +71,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #007aff; 
+      background-color: #0055ff; 
       opacity: 0.95;
       mix-blend-mode: multiply; 
       transition: opacity 0.2s ease;
